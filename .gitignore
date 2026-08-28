@@ -1,0 +1,18 @@
+# Subject-level research data and large binaries (never redistribute;
+# obtain from official sources under their data-use terms)
+registrations/
+templates/
+network_weights/
+origin/
+manifests/
+human_fcl_v16/
+comparison_chondrometrics_v16/
+Chondrometrics_AllMetrics_with_CMT-ID.csv
+FCLgrading_rater*.xlsx
+FILE_MANIFEST_SHA256.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

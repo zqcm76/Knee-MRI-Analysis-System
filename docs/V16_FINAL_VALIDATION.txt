@@ -1,0 +1,69 @@
+CartiMorph v16-final validation summary
+======================================
+Date: 2026-08-28
+
+Frozen morphology configuration
+-------------------------------
+cart_surface_finetune           ON
+paper_fcl_geometry              ON
+balanced_scb_closing            ON
+constrained_interface_scb_seed  ON
+fc_contact_augment_inner        ON
+
+Core implementation decisions retained
+--------------------------------------
+- physical volume scaling = sx*sy*sz
+- FCL scale = 0..100 percent
+- Eq.11 OR inner surface extraction retained
+- reconstructed tAB independent of observed iC retained
+- balanced final tAB surface closing retained
+- thickness ray kernel retained
+- v15 constrained seed retained
+- v16 FC contact augmentation retained
+
+Final reporting additions
+-------------------------
+The final package adds reporting sidecars only:
+- MorphQuant_Compartments.csv
+- FCL_Areas.csv
+No morphology/FCL reconstruction rule is changed by these output additions.
+
+Code validation
+---------------
+python -m py_compile: PASS
+python test_morphology_gpu.py: PASS (all tests passed)
+compare_chondrometrics.py synthetic exact-match smoke test: PASS
+
+79-case human validation of the frozen v16 morphology
+------------------------------------------------------
+ALL20 median-human grade validation:
+- exact: 76.3%
+- within +/-1 grade: 94.4%
+- within +/-2 grades: 98.4%
+- MAE: 0.3215 grades
+- Spearman: 0.534
+- QWK: 0.819
+
+Paper-style pHR validation (79 cases)
+-------------------------------------
+COMMON16_PAIRED pHR @10%:
+- Rater1: Python 0.9011; Chondrometrics 0.7136
+- Rater2: Python 0.9074; Chondrometrics 0.6994
+- Rater3: Python 0.8900; Chondrometrics 0.7057
+- 3-rater mean: Python 0.8995; Chondrometrics 0.7062
+
+ALL20 Python-only pHR @10%:
+- Rater1: 0.8987
+- Rater2: 0.9234
+- Rater3: 0.9032
+- 3-rater mean: 0.9084
+
+The CartiMorph paper reports approximately pHR=0.85 at 10% tolerance.
+
+Known limitation retained and reported
+--------------------------------------
+Severe-disease FCL severity is compressed downward despite strong overall
+specificity and paper-style pHR. This was investigated with reconstruction-stage,
+coverage-provenance, projection-distance and covered-thickness diagnostics.
+No tested morphology/postprocessing change improved severe FCL without materially
+damaging human-zero specificity; therefore no v17 morphology rule was adopted.
